@@ -285,9 +285,11 @@
   // exists in obj
   _.defaults = function(obj) {
     _.each(arguments, function(source) {
-      _.each(source, function(value, key) {
-        obj[key] = value;
-      })
+       _.each(source, function(value, key) {
+         if (obj[key] === undefined) {
+           obj[key] = value;
+         }
+       });
     });
     return obj;
   };
