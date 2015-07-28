@@ -373,28 +373,51 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
 
-    //declare empty array
-    var shuffledArray = [];
+    //creates copy of array argument
+    var result = array.slice();
 
-    //code that copies array contents
-    var arrayCopier = array.slice(0, array.length);
+    //passes through content of array
+    for (var i = result.length -1; i >= 1; i--) {
 
-    //while loop applicable for arrays with elements
-    while(arrayCopier.length > 0) {
+      //generates random index values
+      var j = Math.floor(Math.random()*i);
 
-      //random index generator
-      var randomIndexGenerator = Math.floor(Math.random() *arrayCopier.length);
+      //       = array.slice(last value of array)
+      var temp = result[i];
 
-      //pushes a random-index value from arrayCopier into shuffledArray
-      shuffledArray.push(arrayCopier[randomIndexGenerator]);
+      //array.slice(last value of array) = array.slice(random index value * last value of array)
+      result[i] = result[j];
 
-      //takes value out of arrayCopier
-      arrayCopier.splice(randomIndexGenerator, 1);
-
+      //array.slice(random index value * last value of array) = array.slice(last value of array)
+      result[j] = temp;
     }
-    return shuffledArray;
+
+    return result;
 
   };
+
+    // //declare empty array
+    // var shuffledArray = [];
+
+    // //code that copies array contents
+    // var arrayCopier = array.slice(0, array.length);
+
+    // //while loop applicable for arrays with elements
+    // while(arrayCopier.length > 0) {
+
+    //   //random index generator
+    //   var randomIndexGenerator = Math.floor(Math.random() *arrayCopier.length);
+
+    //   //pushes a random-index value from arrayCopier into shuffledArray
+    //   shuffledArray.push(arrayCopier[randomIndexGenerator]);
+
+    //   //takes value out of arrayCopier
+    //   arrayCopier.splice(randomIndexGenerator, 1);
+
+    // }
+    // return shuffledArray;
+
+
 
 
   /**
@@ -407,7 +430,31 @@
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
+
+  //allows us to invoke a function against every item in a collection
+
+  //create a function to raise each number by a certain power
+
+
   _.invoke = function(collection, functionOrKey, args) {
+
+    //
+    return _.map(collection, function(value) {
+
+      //if functionOrKey is a "function"
+      if (typeof functionOrKey === "function") {
+
+        //then apply args to (?)
+        return functionOrKey.apply(value, args);
+
+
+      } else {
+
+
+        return value[functionOrKey].apply(value, args);
+      }
+    });
+
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -423,13 +470,40 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var result = [];
+    var lengths = [];
+
+    _.each(arguments, function(item, index){
+      lengths.push(item.length)
+    })
+
+    var longest = Math.max.apply(null, lengths);
+
+
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
+
+
   _.flatten = function(nestedArray, result) {
+
+    var flattened = [];
+
+    var flatten = function(array){
+      _.each(array, function(value) {
+        if (Array.isArray(value)) {
+          flatten(value);
+        }  else {
+          flattened.push(value);
+        }
+      })
+    }
+    flatten(nestedArray);
+    return flattened;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
