@@ -473,13 +473,20 @@
     var result = [];
     var lengths = [];
 
-    _.each(arguments, function(item, index){
-      lengths.push(item.length)
+    _.each(arguments, function(array){
+      lengths.push(array.length)
     })
 
     var longest = Math.max.apply(null, lengths);
 
-
+    for (var i = 0; i < longest; i++) {
+      var element = [];
+      _.each(arguments, function(item, index) {
+        element.push(item[i])
+      })
+      result.push(element)
+    }
+    return result;
 
   };
 
